@@ -1,0 +1,11 @@
+name: deploy-proxmox
+runtime:
+  name: python
+  options:
+    toolchain: poetry
+    virtualenv: .venv
+description: A minimal Python Pulumi program
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: python
