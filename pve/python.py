@@ -70,7 +70,11 @@ class Python(pulumi.ComponentResource):
                 )
             ),
             delete='rm -rf Python-{version}',
-            opts=pulumi.ResourceOptions(depends_on=[build_system], parent=self),
+            opts=pulumi.ResourceOptions(
+                depends_on=[build_system],
+                parent=self,
+                delete_before_replace=True,
+            ),
         )
 
         python_build = pulumi_command.remote.Command(
@@ -84,7 +88,11 @@ class Python(pulumi.ComponentResource):
                 )
             ),
             delete='make clean -c Python-{version}',
-            opts=pulumi.ResourceOptions(depends_on=[python_sources], parent=self),
+            opts=pulumi.ResourceOptions(
+                depends_on=[python_sources],
+                parent=self,
+                delete_before_replace=True,
+            ),
         )
 
         pulumi_command.remote.Command(
