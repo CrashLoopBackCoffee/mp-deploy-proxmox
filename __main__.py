@@ -51,6 +51,7 @@ python_sources = pulumi_command.remote.Command(
             f'tar -xf Python-{python_version}.tgz && rm -f Python-{python_version}.tgz',
         )
     ),
+    delete='rm -rf Python-{python_version}',
     opts=pulumi.ResourceOptions(depends_on=[build_system]),
 )
 
@@ -61,20 +62,16 @@ python_build = pulumi_command.remote.Command(
         (
             f'cd Python-{python_version}',
             './configure --enable-optimizations',
-            'make -j 2'
+            'make -j 2',
         )
     ),
+    delete='make clean -c Python-{python_version}',
     opts=pulumi.ResourceOptions(depends_on=[python_sources]),
 )
 
 python_install = pulumi_command.remote.Command(
     'python install',
     connection=connection,
-    create=' && '.join(
-        (
-            f'cd Python-{python_version}',
-            'make altinstall'
-        )
-    ),
+    create=' && '.join((f'cd Python-{python_version}', 'make altinstall')),
     opts=pulumi.ResourceOptions(depends_on=[python_build]),
 )
