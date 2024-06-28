@@ -34,12 +34,12 @@ class Python(pulumi.ComponentResource):
         self,
         name: str,
         connection: pulumi.Input[pulumi_command.remote.ConnectionArgs],
-        version: pulumi.Input[str],
+        version: str,
         opts: pulumi.ResourceOptions | None = None,
     ) -> None:
         module_path = self.__module__.replace('.', ':')
         super().__init__(
-            f'{module_path}:{self.__class__}',
+            f'{module_path}:{self.__class__.__name__}',
             name,
             {
                 'version': version,
@@ -69,12 +69,7 @@ class Python(pulumi.ComponentResource):
                     f'tar -xf Python-{version}.tgz && rm -f Python-{version}.tgz',
                 )
             ),
-            delete='rm -rf Python-{version}',
-            opts=pulumi.ResourceOptions(
-                depends_on=[build_system],
-                parent=self,
-                delete_before_replace=True,
-            ),
+            opts=pulumi.ResourceOptions(depends_on=[build_system], parent=self),
         )
 
         python_build = pulumi_command.remote.Command(
@@ -87,12 +82,7 @@ class Python(pulumi.ComponentResource):
                     'make -j 2',
                 )
             ),
-            delete='make clean -c Python-{version}',
-            opts=pulumi.ResourceOptions(
-                depends_on=[python_sources],
-                parent=self,
-                delete_before_replace=True,
-            ),
+            opts=pulumi.ResourceOptions(depends_on=[python_sources], parent=self),
         )
 
         pulumi_command.remote.Command(
@@ -102,9 +92,10 @@ class Python(pulumi.ComponentResource):
             opts=pulumi.ResourceOptions(depends_on=[python_build], parent=self),
         )
 
+        major, minor, _ = version.split('.')
         self.register_outputs(
             {
                 'version': version,
-                'interpreter_name': pulumi.Output.concat('python', version),
+                'interpreter_name': f'python{major}.{minor}',
             }
         )
