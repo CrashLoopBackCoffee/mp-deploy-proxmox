@@ -38,14 +38,15 @@ class Python(pulumi.ComponentResource):
         opts: pulumi.ResourceOptions | None = None,
     ) -> None:
         module_path = self.__module__.replace('.', ':')
+        major, minor, _ = version.split('.')
         super().__init__(
             f'{module_path}:{self.__class__.__name__}',
             name,
-            {
+            props={
                 'version': version,
-                'interpreter_name': None,
+                'interpreter_name': f'python{major}.{minor}',
             },
-            opts,
+            opts=opts,
         )
 
         build_system = pulumi_command.remote.Command(
@@ -92,10 +93,4 @@ class Python(pulumi.ComponentResource):
             opts=pulumi.ResourceOptions(depends_on=[python_build], parent=self),
         )
 
-        major, minor, _ = version.split('.')
-        self.register_outputs(
-            {
-                'version': version,
-                'interpreter_name': f'python{major}.{minor}',
-            }
-        )
+        self.register_outputs({})
