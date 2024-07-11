@@ -169,12 +169,12 @@ files = [
 
 [[package]]
 name = "pulumi"
-version = "3.121.0"
+version = "3.123.0"
 description = "Pulumi's Python SDK"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pulumi-3.121.0-py3-none-any.whl", hash = "sha256:065064239527acd4e141e19c095d0ceb3ae175a0111586a81897edf85b29632f"},
+    {file = "pulumi-3.123.0-py3-none-any.whl", hash = "sha256:c3a4fbce4fe64a27663b95df5d7c4c9c6cbea3d8b5973a028f891b61e6a68b8d"},
 ]
 
 [package.dependencies]
@@ -187,13 +187,13 @@ six = ">=1.12,<2.0"
 
 [[package]]
 name = "pulumi-command"
-version = "0.11.1"
+version = "1.0.0"
 description = "The Pulumi Command Provider enables you to execute commands and scripts either locally or remotely as part of the Pulumi resource model."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pulumi_command-0.11.1-py3-none-any.whl", hash = "sha256:c584a3e7578181c8a4e39380f13f243abe036c0f5ab934641128739fbc2723ba"},
-    {file = "pulumi_command-0.11.1.tar.gz", hash = "sha256:f69be5b912bb185bfa3ae1dc76cce058d6598573ca1e12751885db65c5716c77"},
+    {file = "pulumi_command-1.0.0-py3-none-any.whl", hash = "sha256:c78aa271817f1a74eda0caff62035e228bba30fda1156b7ea57091312e229585"},
+    {file = "pulumi_command-1.0.0.tar.gz", hash = "sha256:8570b771673c58f031ca198304d50a64b7e4961f0800ab123bdc6cbdda38a7d2"},
 ]
 
 [package.dependencies]
@@ -203,13 +203,13 @@ semver = ">=2.8.1"
 
 [[package]]
 name = "pyright"
-version = "1.1.368"
+version = "1.1.371"
 description = "Command line wrapper for pyright"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyright-1.1.368-py3-none-any.whl", hash = "sha256:4a86e34b61c755b43b367af7fbf927fc6466fff6b81a9dcea07d42416c640af3"},
-    {file = "pyright-1.1.368.tar.gz", hash = "sha256:9b2aa48142d9d9fc9a6aedff743c76873cc4e615f3297cdbf893d5793f75b306"},
+    {file = "pyright-1.1.371-py3-none-any.whl", hash = "sha256:cce52e42ff73943243e7e5e24f2a59dee81b97d99f4e3cf97370b27e8a1858cd"},
+    {file = "pyright-1.1.371.tar.gz", hash = "sha256:777b508b92dda2db476214c400ce043aad8d8f3dd0e10d284c96e79f298308b5"},
 ]
 
 [package.dependencies]
@@ -329,4 +329,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "171b93a23c06a02d4ad3ff9c5099b3a86deab2e0f3e4fab256e21068b7487504"
+content-hash = "b282f6e8b7fed65ccd2a329e714f7d7619bbb017f5082a050b4a7e11242bf2b5"
