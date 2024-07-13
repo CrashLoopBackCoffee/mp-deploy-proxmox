@@ -3,17 +3,18 @@
 import pulumi
 import pulumi_command
 
+from pve.base import BaseComponent
 
-class Grub(pulumi.ComponentResource):
+
+class Grub(BaseComponent):
     def __init__(
         self,
         name: str,
         connection: pulumi.Input[pulumi_command.remote.ConnectionArgs],
         opts: pulumi.ResourceOptions | None = None,
     ) -> None:
-        module_path = self.__module__.replace('.', ':')
         super().__init__(
-            f'{module_path}:{self.__class__.__name__}',
+            self.resource_type,
             name,
             props={},
             opts=opts,

@@ -3,8 +3,10 @@
 import pulumi
 import pulumi_command
 
+from pve.base import BaseComponent
 
-class Python(pulumi.ComponentResource):
+
+class Python(BaseComponent):
     version = pulumi.Output[str]
     interpreter_name = pulumi.Output[str]
 
@@ -37,10 +39,9 @@ class Python(pulumi.ComponentResource):
         version: str,
         opts: pulumi.ResourceOptions | None = None,
     ) -> None:
-        module_path = self.__module__.replace('.', ':')
         major, minor, _ = version.split('.')
         super().__init__(
-            f'{module_path}:{self.__class__.__name__}',
+            self.resource_type,
             name,
             props={
                 'version': version,
