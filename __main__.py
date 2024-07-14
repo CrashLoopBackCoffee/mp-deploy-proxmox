@@ -1,12 +1,11 @@
 """A Python Pulumi program"""
 
+import pathlib
 import pulumi
 import pulumi_command
 
-import pve
-from pve.grub import Grub
-import pve.python
-from pve.smtp import Smtp
+from pve.base import RemoteConfigFiles
+from pve.python import Python
 
 config = pulumi.Config()
 
@@ -17,13 +16,22 @@ connection = pulumi_command.remote.ConnectionArgs(
 )
 
 if version := config.get('python-version'):
-    python = pve.python.Python(
+    python = Python(
         f'python-{version}',
         connection=connection,
         version=version,
     )
     pulumi.export('python-interpreter', python.interpreter_name)
 
-Grub('grub-configuration', connection=connection)
+RemoteConfigFiles(
+    'grub',
+    asset_folder=pathlib.Path('assets', 'grub'),
+    connection=connection,
+)
 
-Smtp('smtp-strato', config.require_object('smtp'), connection=connection)
+RemoteConfigFiles(
+    'smtp-strato',
+    asset_folder=pathlib.Path('assets', 'smtp'),
+    asset_config=config.require_object('smtp'),
+    connection=connection,
+)
