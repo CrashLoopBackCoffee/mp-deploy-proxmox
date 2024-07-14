@@ -6,6 +6,7 @@ import pulumi_command
 import pve
 from pve.grub import Grub
 import pve.python
+from pve.smtp import Smtp
 
 config = pulumi.Config()
 
@@ -24,3 +25,5 @@ if version := config.get('python-version'):
     pulumi.export('python-interpreter', python.interpreter_name)
 
 Grub('grub-configuration', connection=connection)
+
+Smtp('smtp-strato', config.require_object('smtp'), connection=connection)
