@@ -1,6 +1,7 @@
 """A Python Pulumi program"""
 
 import pathlib
+import tempfile
 import pulumi
 import pulumi_command
 
@@ -23,15 +24,18 @@ if version := config.get('python-version'):
     )
     pulumi.export('python-interpreter', python.interpreter_name)
 
+tmpdir = tempfile.TemporaryDirectory(prefix='pulumi-')
+
 RemoteConfigFiles(
     'grub',
     asset_folder=pathlib.Path('assets', 'grub'),
     connection=connection,
 )
 
-RemoteConfigFiles(
+strato_mail = RemoteConfigFiles(
     'smtp-strato',
     asset_folder=pathlib.Path('assets', 'smtp'),
     asset_config=config.require_object('smtp'),
+    temp_folder = pathlib.Path(tmpdir.name),
     connection=connection,
 )
