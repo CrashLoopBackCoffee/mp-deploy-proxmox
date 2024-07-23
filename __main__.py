@@ -24,18 +24,19 @@ if version := config.get('python-version'):
     )
     pulumi.export('python-interpreter', python.interpreter_name)
 
-tmpdir = tempfile.TemporaryDirectory(prefix='pulumi-')
+asset_dir = pathlib.Path('assets')
+temp_dir = tempfile.TemporaryDirectory(prefix='pulumi-')
 
 RemoteConfigFiles(
     'grub',
-    asset_folder=pathlib.Path('assets', 'grub'),
+    asset_folder=asset_dir / 'grub',
     connection=connection,
 )
 
-strato_mail = RemoteConfigFiles(
+RemoteConfigFiles(
     'smtp-strato',
-    asset_folder=pathlib.Path('assets', 'smtp'),
+    asset_folder=asset_dir / 'smtp',
     asset_config=config.require_object('smtp'),
-    temp_folder = pathlib.Path(tmpdir.name),
+    temp_folder=pathlib.Path(temp_dir.name),
     connection=connection,
 )

@@ -54,9 +54,6 @@ class RemoteConfigFiles(BaseComponent):
                 local_path = path
 
             remote_path = pathlib.Path('/', path.relative_to(asset_folder)).as_posix()
-
-            pulumi.log.info(remote_path)
-
             pulumi_command.remote.CopyToRemote(
                 remote_path,
                 connection=connection,
