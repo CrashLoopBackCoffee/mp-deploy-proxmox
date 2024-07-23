@@ -1,5 +1,11 @@
 config:
   deploy-proxmox:host: pve-01.mpagel.de
+  deploy-proxmox:smtp:
+    from: proxmox@mpagel.de
+    password:
+      secure: AAABAEQ1L94ZH97eEd8i7qOWsWk5pNjErAT0RLWQsvlfz8ATK6CmEETJXGy06x8MODUMUPdxKbLL6aJzf7P6ug==
+    server: smtp.strato.de
+    user: proxmox@mpagel.de
   deploy-proxmox:ssh-private-key:
     secure: AAABALnFpBUVVxjA8eRBw26zUI/rSjdVoPzVpc9iSFW3KevoV52HDReHqW9Eo77Vwfuswxyu0RjltWwwbbBQNnNSz+f/JyXdWfoB0d2aqzcKIPmBTsh6MsNGvifBZ+wtlM3JSDm6gmDEDarxjTeBkb9ncLMD6uW8mRGRKCz8G/lfLdp4XiAijU/wo6KeMT60/ULDmqtFmdGcUKbLQd0tnCztt1FTyML6fhsNp9lmxRn7kC8ib3uPlDg+WB43c0Qi716WYguCLkcKo3utw0RolCcPQ/lFlailICIrhBllUsSxkXaaQN36b34CTYez6lZ3XCFHyXxjnz0CReXwEclepzbfOdCK5ItDCJBl8lvPcZnziBsXMn23hK4vBbpq44+VrM9m1B3a8Wm+3WXY4T9Wv2SsIRCO11X0cFQQXMCoClV7g6bpUfaWQRilNdxUjxMYIEL3vWGsN92MU5UrcyNA0DfFFkFq6SIdwS4dDv40sv9AJ95h8OMjmWvoGX2+J+vXr5LNY73snCxjYNZCHW6Ps1aXE0b7TSZ58Fo9m5XzEoeJxQzlm1FPSLTbpkFmZuwohiJwxJ0gjxmOEA==
   deploy-proxmox:ssh-user: root
