@@ -30,6 +30,7 @@ temp_dir = tempfile.TemporaryDirectory(prefix='pulumi-')
 RemoteConfigFiles(
     'grub',
     asset_folder=asset_dir / 'grub',
+    post_run='update-grub',
     connection=connection,
 )
 

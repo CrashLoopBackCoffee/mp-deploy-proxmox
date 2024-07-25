@@ -26,6 +26,7 @@ class RemoteConfigFiles(BaseComponent):
         asset_folder: pathlib.Path,
         asset_config: dict[str, t.Any] | None = None,
         temp_folder: pathlib.Path | None = None,
+        post_run: str | None = None,
         connection: pulumi.Input[pulumi_command.remote.ConnectionArgs],
         opts: pulumi.ResourceOptions | None = None,
     ) -> None:
@@ -41,7 +42,7 @@ class RemoteConfigFiles(BaseComponent):
         else:
             extended_config = None
 
-        remote_files: list[str] = []
+        remote_files: list[pulumi_command.remote.CopyToRemote] = []
 
         for index, path in enumerate(asset_folder.rglob('*.cfg')):
             if asset_config:
@@ -54,13 +55,22 @@ class RemoteConfigFiles(BaseComponent):
                 local_path = path
 
             remote_path = pathlib.Path('/', path.relative_to(asset_folder)).as_posix()
-            pulumi_command.remote.CopyToRemote(
-                remote_path,
-                connection=connection,
-                source=pulumi.asset.FileAsset(local_path),
-                remote_path=remote_path,
-                opts=pulumi.ResourceOptions(parent=self),
+            remote_files.append(
+                pulumi_command.remote.CopyToRemote(
+                    remote_path,
+                    connection=connection,
+                    source=pulumi.asset.FileAsset(local_path),
+                    remote_path=remote_path,
+                    opts=pulumi.ResourceOptions(parent=self),
+                )
             )
-            remote_files.append(remote_path)
 
-        self.register_outputs({'files': remote_files})
+        if post_run:
+            pulumi_command.remote.Command(
+                f'{name}-post-run',
+                connection=connection,
+                create=post_run,
+                opts=pulumi.ResourceOptions(depends_on=remote_files, parent=self),
+            )
+
+        self.register_outputs({'files': [rf.remote_path for rf in remote_files]})
