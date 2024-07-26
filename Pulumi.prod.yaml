@@ -13,8 +13,8 @@ config:
         - key: CF_Token
           value:
             secure: AAABAIY6XCd0GiqnB1ZULS4k9Zx3V96xkqAZSH6XwhJhT3Yw7V/cUGw9zhWn/0vQv7agiThPxzqNk6X7ml9MegF5YR4uJX+I
-      name: cloudflare2
-    staging: true
+      name: cloudflare
+    staging: false
   deploy-proxmox:host: pve-01.mpagel.de
   deploy-proxmox:smtp:
     from: proxmox@mpagel.de
