@@ -5,7 +5,7 @@ import tempfile
 import pulumi
 import pulumi_command
 
-from pve.base import RemoteConfigFiles
+from pve.util import RemoteConfigFiles
 from pve.python import Python
 
 config = pulumi.Config()

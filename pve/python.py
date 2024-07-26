@@ -3,7 +3,7 @@
 import pulumi
 import pulumi_command
 
-from pve.base import BaseComponent
+from pve.util import BaseComponent
 
 
 class Python(BaseComponent):
