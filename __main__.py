@@ -5,6 +5,7 @@ import tempfile
 import pulumi
 import pulumi_command
 
+from pve.acme import Acme
 from pve.util import RemoteConfigFiles
 from pve.python import Python
 
@@ -41,3 +42,6 @@ RemoteConfigFiles(
     temp_folder=pathlib.Path(temp_dir.name),
     connection=connection,
 )
+
+if acme_config := config.get_object('acme'):
+    Acme('acme', config=acme_config, connection=connection)
