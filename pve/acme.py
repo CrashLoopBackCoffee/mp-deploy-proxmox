@@ -73,8 +73,15 @@ class Acme(BaseComponent):
                 ' --tos_url=',
                 acme_terms_url,
             ),
+            delete=pulumi.Output.concat(
+                'pvesh delete /cluster/acme/account/',
+                account_config['name'],
+            ),
             opts=pulumi.ResourceOptions(parent=self),
         )
+
+        acme_account.stdout.apply(lambda s: pulumi.log.info(s))
+        acme_account.stderr.apply(lambda s: pulumi.log.info(s))
 
         plugin_config = config['plugin']
         plugin_data = pulumi.Output.all(*plugin_config['data']).apply(
@@ -101,6 +108,7 @@ class Acme(BaseComponent):
                 'rm -f ',
                 plugin_data_filename,
             ),
+            delete=pulumi.Output.concat('pvenode acme plugin remove ', plugin_config['name']),
             opts=pulumi.ResourceOptions(parent=self),
         )
 
