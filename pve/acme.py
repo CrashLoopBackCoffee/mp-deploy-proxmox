@@ -84,9 +84,6 @@ class Acme(BaseComponent):
             ),
         )
 
-        acme_account.stdout.apply(lambda s: pulumi.log.info(s))
-        acme_account.stderr.apply(lambda s: pulumi.log.info(s))
-
         plugin_config = config['plugin']
         plugin_data = pulumi.Output.all(*plugin_config['data']).apply(
             lambda entries: '\n'.join(f'{e["key"]}={e["value"]}' for e in entries)
