@@ -1,18 +1,19 @@
 config:
   deploy-proxmox:acme:
     account:
-      contact: pulumi@invalid.com
-      name: pulumi
-    domain: invalid.com
+      contact: proxmox@mpagel.de
+      name: pulumi-dev
+    domain: pve-dev.mpagel.de
     plugin:
       api: cf
       data:
         - key: CF_Account_ID
-          value: cloudflare-account
+          value:
+            secure: AAABAMp/Er8DT9LY3J8+QUaUpyCYAbE63A3BHVaPN8P4QVF8byMe9yjWVaSMIVJWmHY5uEn3oDNpb2/9igbLFw==
         - key: CF_Token
           value:
-            secure: AAABAGTs7mO1v8vgoL6yyC4rsbVHKi0BVDYg1h4A4Zf8zzQDsJY2T1dvLSjvnp3j
-      name: cloudflare
+            secure: AAABAClZNAWFNs2KKNshlfCBVwlQPh6IiLDz9QlXbH58mwdBJICsTM2mOOkOtV4+ze4R+DsQ1aUaybkv6yn4WPPay+qthzvk
+      name: cloudflare-dev
     staging: true
   deploy-proxmox:host: pve-dev.mpagel-dev.de
   # deploy-proxmox:python-version: 3.12.4
