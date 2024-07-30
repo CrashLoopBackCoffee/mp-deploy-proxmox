@@ -6,6 +6,7 @@ import pulumi
 import pulumi_command
 
 from pve.acme import Acme
+from pve.backup import Backup
 from pve.util import RemoteConfigFiles
 from pve.python import Python
 
@@ -43,5 +44,6 @@ RemoteConfigFiles(
     connection=connection,
 )
 
-if acme_config := config.get_object('acme'):
-    Acme('acme', config=acme_config, connection=connection)
+Acme('acme', config=config.require_object('acme'), connection=connection)
+
+Backup('backup', config=config.require_object('backup'), connection=connection)
