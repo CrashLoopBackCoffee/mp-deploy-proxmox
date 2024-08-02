@@ -42,4 +42,19 @@ class Backup(BaseComponent):
             ),
         )
 
+        storage_name = config['storage']
+        storage = pulumi_command.remote.Command(
+            storage_name,
+            connection=connection,
+            add_previous_output_in_env=False,
+            create=f'pvesm add dir {storage_name} --path={mount} --content=backup --prune-backups=keep-all=1 --shared=0',
+            delete=f'pvesm remove {storage_name}',
+            opts=pulumi.ResourceOptions(
+                parent=self,
+                delete_before_replace=True,
+                replace_on_changes=['*'],
+                depends_on=[backup_dir],
+            ),
+        )
+
         self.register_outputs({})
