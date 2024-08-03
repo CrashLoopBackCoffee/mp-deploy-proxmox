@@ -46,4 +46,10 @@ RemoteConfigFiles(
 
 Acme('acme', config=config.require_object('acme'), connection=connection)
 
-Backup('backup', config=config.require_object('backup'), connection=connection)
+Backup(
+    'backup',
+    config=config.require_object('backup'),
+    asset_folder=asset_dir / 'backup',
+    temp_folder=pathlib.Path(temp_dir.name),
+    connection=connection,
+)
