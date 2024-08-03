@@ -22,7 +22,7 @@ config:
     schedule: "3:00"
     prune: keep-daily=7,keep-weekly=4
     vmid: 17,18
-  deploy-proxmox:host: pve-dev.mpagel-dev.de
+  deploy-proxmox:host: pve-dev.mpagel.de
   # deploy-proxmox:python-version: 3.12.4
   deploy-proxmox:smtp:
     from: proxmox@mpagel.de
