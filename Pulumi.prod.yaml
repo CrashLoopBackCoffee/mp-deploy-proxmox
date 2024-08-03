@@ -15,6 +15,13 @@ config:
             secure: AAABAIY6XCd0GiqnB1ZULS4k9Zx3V96xkqAZSH6XwhJhT3Yw7V/cUGw9zhWn/0vQv7agiThPxzqNk6X7ml9MegF5YR4uJX+I
       name: cloudflare
     staging: false
+  deploy-proxmox:backup:
+    filesystem: /dev/sda1
+    mountpoint: /mnt/usb-drive
+    storage: backup-usb
+    schedule: "3:00"
+    prune: keep-daily=7,keep-weekly=4
+    vmid: "110"
   deploy-proxmox:host: pve-01.mpagel.de
   deploy-proxmox:smtp:
     from: proxmox@mpagel.de
