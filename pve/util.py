@@ -1,5 +1,6 @@
 """Shared utilities."""
 
+import hashlib
 import pathlib
 import typing as t
 import pulumi
@@ -44,12 +45,16 @@ class RemoteConfigFiles(BaseComponent):
 
         remote_files: list[pulumi_command.remote.CopyToRemote] = []
 
-        for index, path in enumerate(asset_folder.rglob('*.cfg')):
+        for path in asset_folder.rglob('*.cfg'):
             if asset_config:
                 assert extended_config and temp_folder, 'set in if clause above'
 
+                sha256 = hashlib.sha256()
+                sha256.update(path.as_posix().encode())
+                path_hash = sha256.hexdigest()
+
                 format_string = path.read_text()
-                local_path = temp_folder / f'file-{index}'
+                local_path = temp_folder / f'file-{path_hash}'
                 local_path.write_text(format_string.format(**extended_config))
             else:
                 local_path = path
