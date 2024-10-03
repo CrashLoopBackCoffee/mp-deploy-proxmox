@@ -234,22 +234,6 @@ pulumi = ">=3.0.0,<4.0.0"
 semver = ">=2.8.1"
 
 [[package]]
-name = "pulumi-random"
-version = "4.16.6"
-description = "A Pulumi package to safely use randomness in Pulumi programs."
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "pulumi_random-4.16.6-py3-none-any.whl", hash = "sha256:369e276eb4ad1b3b24bd95341f0449f035d0e642fb4edb33d378d94be1d2c5ae"},
-    {file = "pulumi_random-4.16.6.tar.gz", hash = "sha256:9aff7552f03816d3ff217073cbf07f9692587b9c0a9373c882784e8974d0ac00"},
-]
-
-[package.dependencies]
-parver = ">=0.2.1"
-pulumi = ">=3.0.0,<4.0.0"
-semver = ">=2.8.1"
-
-[[package]]
 name = "pyright"
 version = "1.1.383"
 description = "Command line wrapper for pyright"
@@ -393,4 +377,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "9aa0b58ffd967f136db6f7f49cf5f70cadcadd13daa92a6a702223df809158b9"
+content-hash = "b282f6e8b7fed65ccd2a329e714f7d7619bbb017f5082a050b4a7e11242bf2b5"

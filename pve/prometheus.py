@@ -11,7 +11,6 @@ implemented in this module.
 import pathlib
 import pulumi
 import pulumi_command
-import pulumi_random
 from pve.util import BaseComponent, RemoteConfigFiles
 import typing as t
 
