@@ -76,7 +76,7 @@ class PrometheusNode(BaseComponent):
             **non_idempotent_command_args,
         )
 
-        RemoteConfigFiles(
+        exporter_config_files = RemoteConfigFiles(
             f'{name}-exporter-config',
             asset_folder=asset_folder,
             asset_config=exporter_config,
@@ -86,4 +86,20 @@ class PrometheusNode(BaseComponent):
                 parent=self,
                 replace_on_changes=['*'],
             ),
+        )
+
+        assert len(exporter_config_files.files) == 1
+        exporter_config_file = exporter_config_files.files[0]
+        pulumi_command.remote.Command(
+            f'{name}-exporter-config-permissions',
+            create=pulumi.Output.concat(
+                'chown root:',
+                exporter_username,
+                ' ',
+                exporter_config_file,
+                ' && chmod 640 ',
+                exporter_config_file,
+            ),
+            connection=connection,
+            opts=pulumi.ResourceOptions(parent=self),
         )

@@ -20,6 +20,8 @@ class BaseComponent(pulumi.ComponentResource):
 class RemoteConfigFiles(BaseComponent):
     """Copies files to remote after string formatting them with passed config dict."""
 
+    files: list[pulumi.Output[str]]
+
     def __init__(
         self,
         name: str,
@@ -91,4 +93,5 @@ class RemoteConfigFiles(BaseComponent):
                 opts=pulumi.ResourceOptions(depends_on=remote_files, parent=self),
             )
 
-        self.register_outputs({'files': [rf.remote_path for rf in remote_files]})
+        self.files = [rf.remote_path for rf in remote_files]
+        self.register_outputs({'files': self.files})
