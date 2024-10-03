@@ -7,6 +7,7 @@ import pulumi_command
 
 from pve.acme import Acme
 from pve.backup import Backup
+from pve.prometheus import PrometheusNode
 from pve.util import RemoteConfigFiles
 from pve.python import Python
 
@@ -28,6 +29,7 @@ if version := config.get('python-version'):
 
 asset_dir = pathlib.Path('assets')
 temp_dir = tempfile.TemporaryDirectory(prefix='pulumi-')
+temp_path = pathlib.Path(temp_dir.name)
 
 RemoteConfigFiles(
     'grub',
@@ -40,7 +42,7 @@ RemoteConfigFiles(
     'smtp-strato',
     asset_folder=asset_dir / 'smtp',
     asset_config=config.require_object('smtp'),
-    temp_folder=pathlib.Path(temp_dir.name),
+    temp_folder=temp_path,
     connection=connection,
 )
 
@@ -50,6 +52,14 @@ Backup(
     'backup',
     config=config.require_object('backup'),
     asset_folder=asset_dir / 'backup',
-    temp_folder=pathlib.Path(temp_dir.name),
+    temp_folder=temp_path,
+    connection=connection,
+)
+
+PrometheusNode(
+    'prometheus',
+    config=config.require_object('prometheus'),
+    asset_folder=asset_dir / 'prometheus-exporter',
+    temp_folder=temp_path,
     connection=connection,
 )

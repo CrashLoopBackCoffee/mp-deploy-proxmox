@@ -18,11 +18,16 @@ config:
   deploy-proxmox:backup:
     filesystem: /dev/sdb1
     mountpoint: /mnt/usb-drive
-    storage: backup-usb
-    schedule: "3:00"
     prune: keep-daily=7,keep-weekly=4
+    schedule: "3:00"
+    storage: backup-usb
     vmid: 17,18
   deploy-proxmox:host: pve-dev.mpagel.de
+  deploy-proxmox:prometheus:
+    exporter:
+      password:
+        secure: AAABADtOJZ+h5ZOTAiBk4QPY1WAlhcRgleRMxKIHJVGHWNavHiDv7d7QG+fp6iXg0w==
+      username: pve-exporter
   # deploy-proxmox:python-version: 3.12.4
   deploy-proxmox:smtp:
     from: proxmox@mpagel.de
