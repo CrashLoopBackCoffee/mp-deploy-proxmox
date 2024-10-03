@@ -76,30 +76,19 @@ class PrometheusNode(BaseComponent):
             **non_idempotent_command_args,
         )
 
-        exporter_config_files = RemoteConfigFiles(
+        RemoteConfigFiles(
             f'{name}-exporter-config',
             asset_folder=asset_folder,
             asset_config=exporter_config,
             temp_folder=temp_folder,
+            post_run=f'chown -v root:{exporter_username} /etc/prometheus/pve.yml && '
+            'chmod -v 640 /etc/prometheus/pve.yml && '
+            'systemctl daemon-reload && '
+            'systemctl enable prometheus-pve-exporter.service && '
+            'systemctl start prometheus-pve-exporter.service',
             connection=connection,
             opts=pulumi.ResourceOptions(
                 parent=self,
                 replace_on_changes=['*'],
             ),
-        )
-
-        assert len(exporter_config_files.files) == 1
-        exporter_config_file = exporter_config_files.files[0]
-        pulumi_command.remote.Command(
-            f'{name}-exporter-config-permissions',
-            create=pulumi.Output.concat(
-                'chown root:',
-                exporter_username,
-                ' ',
-                exporter_config_file,
-                ' && chmod 640 ',
-                exporter_config_file,
-            ),
-            connection=connection,
-            opts=pulumi.ResourceOptions(parent=self),
         )
