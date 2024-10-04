@@ -78,7 +78,7 @@ class PrometheusNode(BaseComponent):
 
         RemoteConfigFiles(
             f'{name}-exporter-config',
-            asset_folder=asset_folder,
+            asset_folder=asset_folder / 'exporter',
             asset_config=exporter_config,
             temp_folder=temp_folder,
             post_run=f'chown -v root:{exporter_username} /etc/prometheus/pve.yml && '

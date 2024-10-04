@@ -59,7 +59,7 @@ Backup(
 PrometheusNode(
     'prometheus',
     config=config.require_object('prometheus'),
-    asset_folder=asset_dir / 'prometheus-exporter',
+    asset_folder=asset_dir / 'prometheus',
     temp_folder=temp_path,
     connection=connection,
 )

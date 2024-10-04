@@ -18,10 +18,15 @@ config:
   deploy-proxmox:backup:
     filesystem: /dev/sda1
     mountpoint: /mnt/usb-drive
-    storage: backup-usb
-    schedule: "3:00"
     prune: keep-daily=7,keep-weekly=4
+    schedule: "3:00"
+    storage: backup-usb
     vmid: "110"
+  deploy-proxmox:grafana:
+    prometheus-push-url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
+    username: "1550517"
+    password:
+      secure: AAABAB/pCAOut3c5ynr0Uj0GsptXQqbczJuvM2aGngJrca4ZYunIj05SAzkvqNYl1pISxViI22Z/1pur3iZM80t2o4Q112fQ9X510tE4Wbjy9P+f+aNSbOg9kObzPtj/mjRfTYCtG29PUda2gP6cbLruQmhRCEH3YvsYe4kHssYueqWvtK86yagjxMd3fya+Tv4xo6XOqQjH9t8C/941sJzWe8H2zUWhhalayz8X0scuslmDxbrBTSUmqd01WlCEaT39C7B2++Q=
   deploy-proxmox:host: pve-01.mpagel.de
   deploy-proxmox:smtp:
     from: proxmox@mpagel.de
