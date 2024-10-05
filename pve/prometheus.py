@@ -76,7 +76,7 @@ class PrometheusNode(BaseComponent):
             **non_idempotent_command_args,
         )
 
-        RemoteConfigFiles(
+        pve_exporter = RemoteConfigFiles(
             f'{name}-exporter-config',
             asset_folder=asset_folder / 'exporter',
             asset_config=exporter_config,
@@ -90,5 +90,22 @@ class PrometheusNode(BaseComponent):
             opts=pulumi.ResourceOptions(
                 parent=self,
                 replace_on_changes=['*'],
+            ),
+        )
+
+        vmid = exporter_config['vmid']
+        RemoteConfigFiles(
+            f'{name}-config',
+            asset_folder=asset_folder / 'local',
+            asset_config=config['local'],
+            temp_folder=temp_folder,
+            post_run=f'pct push {vmid} /tmp/prometheus.yml /etc/prometheus/prometheus.yml && '
+            f'rm -f /tmp/prometheus.yml && '
+            f'pct exec {vmid} systemctl restart prometheus',
+            connection=connection,
+            opts=pulumi.ResourceOptions(
+                parent=self,
+                replace_on_changes=['*'],
+                depends_on=pve_exporter,
             ),
         )

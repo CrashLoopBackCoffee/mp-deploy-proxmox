@@ -28,12 +28,14 @@ config:
       password:
         secure: AAABADtOJZ+h5ZOTAiBk4QPY1WAlhcRgleRMxKIHJVGHWNavHiDv7d7QG+fp6iXg0w==
       username: pve-exporter
+      vmid: 100
     local:
-      remote-write:
-        password:
-          secure: AAABAByLB8mglzVb7chEf4yI5rrbx4znLhW3hopAMrhnw7rvDt+vPaU+a4/mxk1HENQva6PGUaqR85wD3BafycYVDaPTV6P5FpQ9ZddqFWZ+pmknrWfqTVSlYprAzym5amYXxr1YSuJTFsZdHN8TYDHOwmHOgpmq3YnXZP4kSY29X7jOQPql8gA3C3zV90PTy+h7/DgvwbFtDtn4ASn26s4MmZ/t+ju8MFHjCYN7rbaq7S6KEMsNSECVTFFOqxjE542CLTs2tlY=
-        url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
-        username: "1550517"
+      remote-password:
+        secure: AAABAByLB8mglzVb7chEf4yI5rrbx4znLhW3hopAMrhnw7rvDt+vPaU+a4/mxk1HENQva6PGUaqR85wD3BafycYVDaPTV6P5FpQ9ZddqFWZ+pmknrWfqTVSlYprAzym5amYXxr1YSuJTFsZdHN8TYDHOwmHOgpmq3YnXZP4kSY29X7jOQPql8gA3C3zV90PTy+h7/DgvwbFtDtn4ASn26s4MmZ/t+ju8MFHjCYN7rbaq7S6KEMsNSECVTFFOqxjE542CLTs2tlY=
+      remote-url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
+      remote-username: "1550517"
+      exporter-target: "pve-dev.mpagel.de:9221"
+      label-environment: dev
     # deploy-proxmox:python-version: 3.12.4
   deploy-proxmox:smtp:
     from: proxmox@mpagel.de
