@@ -56,9 +56,17 @@ Backup(
     connection=connection,
 )
 
+cloud_prometheus_config = config.require_object('grafana-cloud')['prometheus']
+prometheus_config = config.require_object('prometheus')
+prometheus_config['local'] |= {
+    'remote-url': cloud_prometheus_config['push-url'],
+    'remote-username': cloud_prometheus_config['username'],
+    'remote-password': cloud_prometheus_config['password'],
+}
+
 PrometheusNode(
     'prometheus',
-    config=config.require_object('prometheus'),
+    config=prometheus_config,
     asset_folder=asset_dir / 'prometheus',
     temp_folder=temp_path,
     connection=connection,
