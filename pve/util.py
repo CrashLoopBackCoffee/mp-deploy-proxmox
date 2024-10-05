@@ -20,6 +20,8 @@ class BaseComponent(pulumi.ComponentResource):
 class RemoteConfigFiles(BaseComponent):
     """Copies files to remote after string formatting them with passed config dict."""
 
+    files: list[pulumi.Output[str]]
+
     def __init__(
         self,
         name: str,
@@ -45,7 +47,10 @@ class RemoteConfigFiles(BaseComponent):
 
         remote_files: list[pulumi_command.remote.CopyToRemote] = []
 
-        for path in asset_folder.rglob('*.cfg'):
+        for path in asset_folder.rglob('*'):
+            if not path.is_file():
+                continue
+
             if asset_config:
                 assert extended_config and temp_folder, 'set in if clause above'
 
@@ -59,14 +64,24 @@ class RemoteConfigFiles(BaseComponent):
             else:
                 local_path = path
 
-            remote_path = pathlib.Path('/', path.relative_to(asset_folder)).as_posix()
+            remote_file = pathlib.Path('/', path.relative_to(asset_folder))
+            remote_path = remote_file.as_posix()
+            remote_dir_path = remote_file.parent.as_posix()
+
+            remote_dir = pulumi_command.remote.Command(
+                remote_dir_path,
+                connection=connection,
+                create=f'mkdir -p {remote_dir_path}',
+                opts=pulumi.ResourceOptions(parent=self),
+            )
+
             remote_files.append(
                 pulumi_command.remote.CopyToRemote(
                     remote_path,
                     connection=connection,
                     source=pulumi.asset.FileAsset(local_path),
                     remote_path=remote_path,
-                    opts=pulumi.ResourceOptions(parent=self),
+                    opts=pulumi.ResourceOptions(depends_on=remote_dir, parent=self),
                 )
             )
 
@@ -78,4 +93,5 @@ class RemoteConfigFiles(BaseComponent):
                 opts=pulumi.ResourceOptions(depends_on=remote_files, parent=self),
             )
 
-        self.register_outputs({'files': [rf.remote_path for rf in remote_files]})
+        self.files = [rf.remote_path for rf in remote_files]
+        self.register_outputs({'files': self.files})
