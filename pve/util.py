@@ -90,6 +90,7 @@ class RemoteConfigFiles(BaseComponent):
                 f'{name}-post-run',
                 connection=connection,
                 create=post_run,
+                triggers=[remote_files],
                 opts=pulumi.ResourceOptions(depends_on=remote_files, parent=self),
             )
 
