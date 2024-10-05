@@ -40,7 +40,7 @@ class PrometheusNode(BaseComponent):
             opts=opts,
         )
 
-        non_idempotent_command_args = {
+        non_idempotent_command_args: dict[str, t.Any] = {
             'connection': connection,
             'add_previous_output_in_env': False,
             'opts': pulumi.ResourceOptions(
