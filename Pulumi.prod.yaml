@@ -30,7 +30,7 @@ config:
       username: pve-exporter
       vmid: 100
     local:
-      exporter-target: "pve.mpagel.de:9221"
+      exporter-target: "pve-01.mpagel.de:9221"
       label-environment: prod
   deploy-proxmox:smtp:
     from: proxmox@mpagel.de
