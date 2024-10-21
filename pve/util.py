@@ -46,6 +46,8 @@ class RemoteConfigFiles(BaseComponent):
         remote_file_path_strs: list[str] = []
         generated_file_resources: list[pulumi.Resource] = []
 
+        result_texts: list[pulumi.Output[str]] = []
+
         for path in asset_folder.rglob('*'):
             if not path.is_file():
                 continue
@@ -70,7 +72,7 @@ class RemoteConfigFiles(BaseComponent):
             # running a command that prints the templated string to file:
             generated_file_resources.append(
                 pulumi_command.remote.Command(
-                    f'{remote_file_path_str}-printf',
+                    f'{remote_file_path_str}',
                     connection=connection,
                     create=result_text.apply(
                         lambda content,
@@ -87,6 +89,7 @@ class RemoteConfigFiles(BaseComponent):
                 )
             )
 
+            result_texts.append(result_text)
             remote_file_path_strs.append(remote_file_path_str)
 
         if post_run:
@@ -94,6 +97,7 @@ class RemoteConfigFiles(BaseComponent):
                 f'{name}-post-run',
                 connection=connection,
                 create=post_run,
+                triggers=result_texts + remote_file_path_strs,
                 opts=pulumi.ResourceOptions(parent=self, depends_on=generated_file_resources),
             )
 
