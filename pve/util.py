@@ -1,6 +1,5 @@
 """Shared utilities."""
 
-import hashlib
 import pathlib
 import typing as t
 import pulumi
@@ -20,7 +19,7 @@ class BaseComponent(pulumi.ComponentResource):
 class RemoteConfigFiles(BaseComponent):
     """Copies files to remote after string formatting them with passed config dict."""
 
-    files: list[pulumi.Output[str]]
+    files: list[str]
 
     def __init__(
         self,
@@ -28,7 +27,6 @@ class RemoteConfigFiles(BaseComponent):
         *,
         asset_folder: pathlib.Path,
         asset_config: dict[str, t.Any] | None = None,
-        temp_folder: pathlib.Path | None = None,
         post_run: str | None = None,
         connection: pulumi.Input[pulumi_command.remote.ConnectionArgs],
         opts: pulumi.ResourceOptions | None = None,
@@ -45,54 +43,59 @@ class RemoteConfigFiles(BaseComponent):
         else:
             extended_config = None
 
-        remote_files: list[pulumi_command.remote.CopyToRemote] = []
+        remote_file_path_strs: list[str] = []
+        generated_file_resources: list[pulumi.Resource] = []
 
         for path in asset_folder.rglob('*'):
             if not path.is_file():
                 continue
 
+            result_text = pulumi.Output.from_input(path.read_text())
             if asset_config:
-                assert extended_config and temp_folder, 'set in if clause above'
+                assert extended_config, 'set in if clause above'
+                # config might contain secrets:
+                result_text = pulumi.Output.secret(
+                    pulumi.Output.format(result_text, **extended_config)
+                )
 
-                sha256 = hashlib.sha256()
-                sha256.update(path.as_posix().encode())
-                path_hash = sha256.hexdigest()
+            remote_file_path = pathlib.Path('/', path.relative_to(asset_folder))
+            remote_file_path_str = remote_file_path.as_posix()
+            remote_parent_path_str = remote_file_path.parent.as_posix()
 
-                format_string = path.read_text()
-                local_path = temp_folder / f'file-{path_hash}'
-                local_path.write_text(format_string.format(**extended_config))
-            else:
-                local_path = path
-
-            remote_file = pathlib.Path('/', path.relative_to(asset_folder))
-            remote_path = remote_file.as_posix()
-            remote_dir_path = remote_file.parent.as_posix()
-
-            remote_dir = pulumi_command.remote.Command(
-                remote_dir_path,
-                connection=connection,
-                create=f'mkdir -p {remote_dir_path}',
-                opts=pulumi.ResourceOptions(parent=self),
-            )
-
-            remote_files.append(
-                pulumi_command.remote.CopyToRemote(
-                    remote_path,
+            # CopyToRemote is not flexible enough: it computes the hash of the file to copy at
+            # _registration_ time, where some templating inputs are not yet available (e.g. ESC
+            # secrets or resource outputs). While we can override the hash comparison by passing
+            # another trigger, CopyToRemoute seems to actually load the string also at registration
+            # time, i.e. a later update has not the desired effect. So workaround this limitation be
+            # running a command that prints the templated string to file:
+            generated_file_resources.append(
+                pulumi_command.remote.Command(
+                    f'{remote_file_path_str}-printf',
                     connection=connection,
-                    source=pulumi.asset.FileAsset(local_path),
-                    remote_path=remote_path,
-                    opts=pulumi.ResourceOptions(depends_on=remote_dir, parent=self),
+                    create=result_text.apply(
+                        lambda content,
+                        parent_path=remote_parent_path_str,
+                        file_path=remote_file_path_str: ';'.join(
+                            (
+                                f'mkdir -p {parent_path}',
+                                # take advantage of Python escaping its strings for the shell:
+                                f'printf {content!r} > {file_path}',
+                            )
+                        )
+                    ),
+                    opts=pulumi.ResourceOptions(parent=self),
                 )
             )
+
+            remote_file_path_strs.append(remote_file_path_str)
 
         if post_run:
             pulumi_command.remote.Command(
                 f'{name}-post-run',
                 connection=connection,
                 create=post_run,
-                triggers=[remote_files],
-                opts=pulumi.ResourceOptions(depends_on=remote_files, parent=self),
+                opts=pulumi.ResourceOptions(parent=self, depends_on=generated_file_resources),
             )
 
-        self.files = [rf.remote_path for rf in remote_files]
+        self.files = remote_file_path_strs
         self.register_outputs({'files': self.files})

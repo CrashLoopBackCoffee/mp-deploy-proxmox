@@ -29,7 +29,6 @@ class PrometheusNode(BaseComponent):
         *,
         config: dict[str, t.Any],
         asset_folder: pathlib.Path,
-        temp_folder: pathlib.Path | None = None,
         connection: pulumi.Input[pulumi_command.remote.ConnectionArgs],
         opts: pulumi.ResourceOptions | None = None,
     ) -> None:
@@ -80,7 +79,6 @@ class PrometheusNode(BaseComponent):
             f'{name}-exporter-config',
             asset_folder=asset_folder / 'exporter',
             asset_config=exporter_config,
-            temp_folder=temp_folder,
             post_run=f'chown -v root:{exporter_username} /etc/prometheus/pve.yml && '
             'chmod -v 640 /etc/prometheus/pve.yml && '
             'systemctl daemon-reload && '
@@ -98,7 +96,6 @@ class PrometheusNode(BaseComponent):
             f'{name}-config',
             asset_folder=asset_folder / 'local',
             asset_config=config['local'],
-            temp_folder=temp_folder,
             post_run=f'pct push {vmid} /tmp/prometheus.yml /etc/prometheus/prometheus.yml && '
             f'rm -f /tmp/prometheus.yml && '
             f'pct exec {vmid} systemctl restart prometheus',

@@ -1,7 +1,6 @@
 """A Python Pulumi program"""
 
 import pathlib
-import tempfile
 import pulumi
 import pulumi_command
 
@@ -28,8 +27,6 @@ if version := config.get('python-version'):
     pulumi.export('python-interpreter', python.interpreter_name)
 
 asset_dir = pathlib.Path('assets')
-temp_dir = tempfile.TemporaryDirectory(prefix='pulumi-')
-temp_path = pathlib.Path(temp_dir.name)
 
 RemoteConfigFiles(
     'grub',
@@ -42,7 +39,6 @@ RemoteConfigFiles(
     'smtp-strato',
     asset_folder=asset_dir / 'smtp',
     asset_config=config.require_object('smtp'),
-    temp_folder=temp_path,
     connection=connection,
 )
 
@@ -52,7 +48,6 @@ Backup(
     'backup',
     config=config.require_object('backup'),
     asset_folder=asset_dir / 'backup',
-    temp_folder=temp_path,
     connection=connection,
 )
 
@@ -68,6 +63,5 @@ PrometheusNode(
     'prometheus',
     config=prometheus_config,
     asset_folder=asset_dir / 'prometheus',
-    temp_folder=temp_path,
     connection=connection,
 )

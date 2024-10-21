@@ -84,9 +84,9 @@ class Acme(BaseComponent):
             ),
         )
 
-        plugin_config = config['plugin']
+        plugin_config: dict[str, t.Any] = config['plugin']
         plugin_data = pulumi.Output.all(*plugin_config['data']).apply(
-            lambda entries: '\n'.join(f'{e["key"]}={e["value"]}' for e in entries)
+            lambda entries: '\n'.join(f'{e["key"]}={e["value"]}' for e in entries)  # pyright: ignore[reportArgumentType]  # we assume structure of config dict
         )
         plugin_data_filename = '.acme-plugin-data'
         acme_plugin = pulumi_command.remote.Command(

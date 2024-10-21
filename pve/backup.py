@@ -16,7 +16,6 @@ class Backup(BaseComponent):
         *,
         asset_folder: pathlib.Path,
         config: dict[str, t.Any],
-        temp_folder: pathlib.Path,
         connection: pulumi.Input[pulumi_command.remote.ConnectionArgs],
         opts: pulumi.ResourceOptions | None = None,
     ) -> None:
@@ -64,7 +63,6 @@ class Backup(BaseComponent):
             f'{name}-jobs',
             asset_folder=asset_folder,
             asset_config=config,
-            temp_folder=temp_folder,
             connection=connection,
             opts=pulumi.ResourceOptions(
                 parent=self,
