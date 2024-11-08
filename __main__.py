@@ -65,3 +65,8 @@ PrometheusNode(
     asset_folder=asset_dir / 'prometheus',
     connection=connection,
 )
+
+# provide access credentials to access node from other stacks:
+pulumi.export('ssh.host', connection.host)
+pulumi.export('ssh.user', connection.user)
+pulumi.export('ssh.private_key', connection.private_key)

@@ -4,7 +4,7 @@ runtime:
   options:
     toolchain: poetry
     virtualenv: .venv
-description: A minimal Python Pulumi program
+description: Proxmox cluster configuration
 config:
   pulumi:tags:
     value:
