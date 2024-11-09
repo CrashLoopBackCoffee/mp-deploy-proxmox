@@ -5,6 +5,7 @@ import pulumi
 import pulumi_command
 
 from pve.acme import Acme
+from pve.api_token import create_api_token
 from pve.backup import Backup
 from pve.prometheus import PrometheusNode
 from pve.util import RemoteConfigFiles
@@ -66,7 +67,10 @@ PrometheusNode(
     connection=connection,
 )
 
+assert connection.user
+api_token = create_api_token('pulumi', username=connection.user, connection=connection)
+
 # provide access credentials to access node from other stacks:
-pulumi.export('host', connection.host)
-pulumi.export('ssh-user', connection.user)
-pulumi.export('ssh-private-key', connection.private_key)
+pulumi.export('api-endpoint', f'https://{connection.host}:8006/')
+pulumi.export('api-insecure', pulumi.get_stack() != 'prod')
+pulumi.export('api-token', api_token)
