@@ -67,6 +67,6 @@ PrometheusNode(
 )
 
 # provide access credentials to access node from other stacks:
-pulumi.export('ssh.host', connection.host)
-pulumi.export('ssh.user', connection.user)
-pulumi.export('ssh.private_key', connection.private_key)
+pulumi.export('host', connection.host)
+pulumi.export('ssh-user', connection.user)
+pulumi.export('ssh-private-key', connection.private_key)
