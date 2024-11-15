@@ -74,3 +74,7 @@ api_token = create_api_token('pulumi', username=connection.user, connection=conn
 pulumi.export('api-endpoint', f'https://{connection.host}:8006/')
 pulumi.export('api-insecure', pulumi.get_stack() != 'prod')
 pulumi.export('api-token', api_token)
+
+pulumi.export('ssh-host', connection.host)
+pulumi.export('ssh-user', connection.user)
+pulumi.export('ssh-private-key', connection.private_key)
