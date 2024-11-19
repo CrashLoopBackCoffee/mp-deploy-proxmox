@@ -2,7 +2,7 @@
 
 import pathlib
 import pulumi
-import pulumi_command
+import pulumi_command as command
 
 from pve.acme import Acme
 from pve.api_token import create_api_token
@@ -13,7 +13,7 @@ from pve.python import Python
 
 config = pulumi.Config()
 
-connection = pulumi_command.remote.ConnectionArgs(
+connection = command.remote.ConnectionArgs(
     host=config.require('host'),
     user=config.require('ssh-user'),
     private_key=config.require_secret('ssh-private-key'),
@@ -65,6 +65,14 @@ PrometheusNode(
     config=prometheus_config,
     asset_folder=asset_dir / 'prometheus',
     connection=connection,
+)
+
+# ensure snippets content_type on local:
+command.remote.Command(
+    'local-snippets',
+    connection=connection,
+    add_previous_output_in_env=False,
+    create='pvesm set local --content backup,vztmpl,iso,snippets',
 )
 
 assert connection.user
