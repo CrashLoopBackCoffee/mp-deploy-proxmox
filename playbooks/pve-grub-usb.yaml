@@ -2,6 +2,15 @@
   hosts: pve_nodes
   gather_facts: false
   tasks:
-    - name: Hello world
-      ansible.builtin.ping:
-        data: Hello yourself!
+    - name: Copy grub config
+      ansible.builtin.copy:
+        dest: /etc/default/grub.d/usb-powersave-off.cfg
+        mode: '0644'
+        content: |
+          # disable USB power saving as this periodically diconnects USB devices from VMs:
+          GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT usbcore.autosuspend=-1"
+      notify: Update grub
+
+  handlers:
+    - name: Update grub
+      ansible.builtin.command: update-grub
