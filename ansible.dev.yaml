@@ -1,0 +1,3 @@
+pve_nodes:
+  hosts:
+    pve-dev.mpagel.de:

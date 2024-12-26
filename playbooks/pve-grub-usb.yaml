@@ -1,0 +1,7 @@
+- name: Prevent USB disconnect due to HW sleep
+  hosts: pve_nodes
+  gather_facts: false
+  tasks:
+    - name: Hello world
+      ansible.builtin.ping:
+        data: Hello yourself!
