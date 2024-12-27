@@ -9,6 +9,7 @@ package-mode = false
 python = "^3.12"
 pulumi = ">=3.0.0,<4.0.0"
 pulumi-command = "^1.0.0"
+ansible = "^11.1.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.1.8"
