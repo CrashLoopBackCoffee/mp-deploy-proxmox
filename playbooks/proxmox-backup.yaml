@@ -1,0 +1,10 @@
+- name: Add backup jobs
+  hosts: pve_nodes
+  gather_facts: false
+  tasks:
+    - name: Configure backup
+      ansible.builtin.include_role:
+        name: pve_template
+      vars:
+        src: templates/backup-jobs.cfg.j2
+        dest: /etc/pve/jobs.cfg
