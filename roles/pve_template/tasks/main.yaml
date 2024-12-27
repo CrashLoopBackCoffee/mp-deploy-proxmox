@@ -1,0 +1,15 @@
+- name: Check existence of {{ dest }}
+  ansible.builtin.stat:
+    path: '{{ dest }}'
+  register: pve_template_stat_result
+
+- name: Create {{ dest }}
+  ansible.builtin.file:
+    path: '{{ dest }}'
+    state: touch
+  when: not pve_template_stat_result.stat.exists
+
+- name: Evaluate template {{ src }} and replace {{ dest }}
+  ansible.builtin.template:
+    src: '{{ src }}'
+    dest: '{{ dest }}'

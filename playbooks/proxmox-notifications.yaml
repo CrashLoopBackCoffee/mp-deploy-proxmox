@@ -1,0 +1,10 @@
+- name: Set up notification mails
+  hosts: pve_nodes
+  gather_facts: false
+  tasks:
+    - name: Copy notification definitions
+      ansible.builtin.include_role:
+        name: pve_template
+      vars:
+        src: templates/notifications.cfg.j2
+        dest: /etc/pve/notifications.cfg

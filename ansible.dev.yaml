@@ -1,3 +1,9 @@
 pve_nodes:
   hosts:
-    pve-dev.mpagel.de:
+    pve-dev.mpagel.de: ~
+  vars:
+    smtp_account:
+      name: strato-mpagel
+      from: proxmox@mpagel.de
+      server: smtp.strato.de
+      user: proxmox@mpagel.de
