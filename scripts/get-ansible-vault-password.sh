@@ -1,0 +1,2 @@
+#!/bin/bash
+printenv PROXMOX_ANSIBLE_VAULT_PASSWORD
