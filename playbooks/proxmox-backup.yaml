@@ -6,5 +6,5 @@
       ansible.builtin.include_role:
         name: pve_template
       vars:
-        src: templates/backup-jobs.cfg.j2
-        dest: /etc/pve/jobs.cfg
+        pve_template_src: templates/backup-jobs.cfg.j2
+        pve_template_dest: /etc/pve/jobs.cfg
