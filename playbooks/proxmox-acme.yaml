@@ -1,0 +1,23 @@
+- name: Configure TLS certificate
+  hosts: pve_nodes
+  gather_facts: false
+  tasks:
+    - name: Get ACME directories
+      ansible.builtin.command: >
+        pvesh get /cluster/acme/directories --output-format=json
+      register: get_directories_result
+
+    - name: Extract directory objects from stdout
+      ansible.builtin.set_fact:
+        acme_directories: "{{ get_directories_result.stdout | from_json }}"
+
+    - name: Check directory objects
+      ansible.builtin.assert:
+        that:
+          - acme_directories | length == 2
+          - "'staging' in acme_directories[1].url"
+
+    - name: Select directory to use
+      ansible.builtin.set_fact:
+        acme_directory_url: "{{ acme_directories[0].url }}"
+        acme_staging_directory_url: "{{ acme_directories[1].url }}"
