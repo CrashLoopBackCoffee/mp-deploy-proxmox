@@ -45,7 +45,6 @@ pve_nodes:
         storage: local
         vmid: 17,18
     prometheus:
-      vmid: 100
       labels:
         environment: dev
       pve_exporter:
