@@ -1,11 +1,13 @@
 - name: Create API token
   hosts: pve_nodes
+  gather_facts: false
   tasks:
     - name: Query existing tokens
       ansible.builtin.command:
         pveum user token list {{ api_token.userid }} --output-format=json
       register: query_tokens_result
       changed_when: false
+      check_mode: false
 
     - name: Create API token
       ansible.builtin.command:

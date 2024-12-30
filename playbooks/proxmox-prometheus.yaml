@@ -14,6 +14,7 @@
         pvesh get /nodes/{{ ansible_hostname }}/lxc --output-format=json
       register: get_lxc_result
       changed_when: false
+      check_mode: false
 
     - name: Look for Prometheus containers
       ansible.builtin.set_fact:
@@ -39,6 +40,7 @@
         pct pull {{ prometheus_container_id }} {{ prometheus_yml_ct }} {{ prometheus_yml_tmp }} &&
         chmod 0600 {{ prometheus_yml_tmp }}
       changed_when: false
+      check_mode: false
 
     - name: Generate Prometheus config for container
       ansible.builtin.template:
@@ -57,6 +59,7 @@
         pveum user list --output-format=json
       register: query_users_result
       changed_when: false
+      check_mode: false
 
     - name: Look for pve-exporter account
       ansible.builtin.set_fact:
@@ -99,7 +102,13 @@
         owner: root
         group: "{{ prometheus.pve_exporter.username }}"
         mode: '0640'
-      notify: Install pve-exporter service
+
+    - name: Generate pve-exporter service file
+      ansible.builtin.template:
+        src: prometheus-pve-exporter.service.j2
+        dest: /etc/systemd/system/prometheus-pve-exporter.service
+        mode: '0644'
+      notify: Start pve-exporter service
 
   post_tasks:
     - name: Delete local copy of Prometheus config
@@ -115,17 +124,9 @@
         pct exec {{ prometheus_container_id }} systemctl restart prometheus
       changed_when: true
 
-    - name: Copy pve-exporter service file
-      ansible.builtin.template:
-        src: prometheus-pve-exporter.service.j2
-        dest: /etc/systemd/system/prometheus-pve-exporter.service
-        mode: '0644'
-      listen: Install pve-exporter service
-
     - name: Start pve-exporter service
       ansible.builtin.systemd_service:
         name: prometheus-pve-exporter
         state: started
         enabled: true
         daemon_reload: true
-      listen: Install pve-exporter service

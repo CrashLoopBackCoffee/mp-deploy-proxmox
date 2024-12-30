@@ -7,6 +7,7 @@
         pvesh get /cluster/acme/account --output-format=json
       register: get_accounts_result
       changed_when: false
+      check_mode: false
 
     - name: Create ACME account if not yet existing
       when: not account_exists
@@ -23,6 +24,7 @@
             pvesh get /cluster/acme/directories --output-format=json
           register: get_directories_result
           changed_when: false
+          check_mode: false
 
         - name: Extract ACME directory URL
           ansible.builtin.set_fact:
@@ -38,6 +40,7 @@
             pvesh get /cluster/acme/tos --output-format=json
           register: get_tos_result
           changed_when: false
+          check_mode: false
 
         - name: Extract Terms of Services URL
           ansible.builtin.set_fact:
@@ -57,6 +60,7 @@
         pvenode acme plugin list --output-format=json
       register: get_plugins_result
       changed_when: false
+      check_mode: false
 
     - name: Create ACME plugin if not yet existing
       when: not plugin_exists
