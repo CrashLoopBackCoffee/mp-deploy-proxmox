@@ -1,0 +1,27 @@
+- name: Create API token
+  hosts: pve_nodes
+  tasks:
+    - name: Query existing tokens
+      ansible.builtin.command:
+        pveum user token list {{ api_token.userid }} --output-format=json
+      register: query_tokens_result
+      changed_when: false
+
+    - name: Create API token
+      ansible.builtin.command:
+        pveum user token add {{ api_token.userid }} {{ api_token.name }}
+          --privsep 0
+          --comment "Configuration by IaC."
+          --output-format=json
+      when:
+        query_tokens_result.stdout
+          | from_json
+          | selectattr('tokenid', 'equalto', api_token.name)
+          | list | length == 0
+      changed_when: true
+      notify: Export API token
+
+  handlers:
+    - name: Export API token
+      ansible.builtin.debug:
+        msg: "TODO: Store API token persistently, also for Pulumi."

@@ -30,6 +30,9 @@ pve_nodes:
               6633646161353737396662396230613533663030653735643139
         name: cloudflare-dev
       staging: true
+    api_token:
+      name: ansible-dev
+      userid: root@pam
     backups:
       - name: local-backup
         prune: keep-daily=7,keep-weekly=4
