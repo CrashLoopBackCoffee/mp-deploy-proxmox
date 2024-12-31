@@ -1,3 +1,5 @@
+*.log
 *.pyc
 venv/
 .generated/
+.vscode/

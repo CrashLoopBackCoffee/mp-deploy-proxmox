@@ -1,0 +1,16 @@
+sendmail: mail-to-root
+        comment Send mails to root@pam's email address
+        disable true
+        mailto-user root@pam
+
+matcher: default-matcher
+        comment Route all notifications to {{ smtp_account.name }}.
+        mode all
+        target {{ smtp_account.name }}
+
+smtp: {{ smtp_account.name }}
+        from-address {{ smtp_account.from }}
+        mailto-user root@pam
+        mode tls
+        server {{ smtp_account.server }}
+        username {{ smtp_account.user }}
