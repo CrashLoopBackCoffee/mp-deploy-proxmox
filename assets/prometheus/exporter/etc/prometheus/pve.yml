@@ -1,4 +1,0 @@
-default:
-  user: {username}@pve
-  password: {password}
-  verify_ssl: false
