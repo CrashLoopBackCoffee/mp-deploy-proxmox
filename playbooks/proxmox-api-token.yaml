@@ -9,7 +9,7 @@
       changed_when: false
       check_mode: false
 
-    - name: Create API token
+    - name: Create API token {{ api_token.name }}
       ansible.builtin.command:
         pveum user token add {{ api_token.userid }} {{ api_token.name }}
           --privsep 0
