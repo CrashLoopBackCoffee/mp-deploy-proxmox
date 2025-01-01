@@ -1,6 +1,6 @@
 - name: Configure TLS certificate
   hosts: pve_nodes
-  gather_facts: false
+  gather_facts: true
   tasks:
     - name: Query existing ACME accounts
       ansible.builtin.command: >
@@ -102,7 +102,7 @@
     - name: Order TLS certificate
       ansible.builtin.shell:
         cmd:
-          pvenode config set --acmedomain0 domain={{ acme.domain }},plugin={{ acme.plugin.name }} &&
+          pvenode config set --acmedomain0 domain={{ inventory_hostname }},plugin={{ acme.plugin.name }} &&
           pvenode config set --acme=account={{ acme.account.name }} &&
           pvenode acme cert order --force=1
       changed_when: true

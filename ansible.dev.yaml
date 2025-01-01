@@ -6,7 +6,6 @@ pve_nodes:
       account:
         contact: proxmox@mpagel.de
         name: ansible-dev
-      domain: pve-dev.mpagel.de
       plugin:
         api: cf
         data:

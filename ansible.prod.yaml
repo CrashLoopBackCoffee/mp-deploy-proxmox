@@ -7,7 +7,6 @@ pve_nodes:
         contact: proxmox@mpagel.de
         # for now leave the old name to prevent artificial diff:
         name: pulumi
-      domain: pve-01.mpagel.de
       plugin:
         api: cf
         data:
