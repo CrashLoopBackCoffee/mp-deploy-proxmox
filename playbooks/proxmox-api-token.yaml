@@ -1,5 +1,5 @@
 - name: Create API token
-  hosts: pve_nodes
+  hosts: pve
   gather_facts: true
   tasks:
     - name: Query existing tokens

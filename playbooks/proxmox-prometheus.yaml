@@ -1,5 +1,5 @@
 - name: Configure node metrics with Prometheus
-  hosts: pve_nodes
+  hosts: pve
   gather_facts: true
 
   vars:

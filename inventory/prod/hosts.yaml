@@ -1,0 +1,3 @@
+pve:
+  hosts:
+    pve-01.mpagel.de: ~

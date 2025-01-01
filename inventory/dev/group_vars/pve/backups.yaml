@@ -1,0 +1,11 @@
+backups:
+  - name: local-backup
+    prune: keep-daily=7,keep-weekly=4
+    schedule: '3:00'
+    compress: zstd
+    storage: local
+    vmid: 17,18
+  - name: local-backup-2
+    schedule: '3:00'
+    storage: local
+    vmid: 17,18

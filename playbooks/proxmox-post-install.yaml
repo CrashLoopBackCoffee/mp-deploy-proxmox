@@ -1,5 +1,5 @@
 - name: Ensure post-install routines are active
-  hosts: pve_nodes
+  hosts: pve
   gather_facts: false
   tasks:
     - name: Check for no-nag file

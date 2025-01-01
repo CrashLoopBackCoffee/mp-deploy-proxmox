@@ -1,5 +1,5 @@
 - name: Prevent USB disconnect due to HW sleep
-  hosts: pve_nodes
+  hosts: pve
   gather_facts: false
   tasks:
     - name: Copy grub config

@@ -1,5 +1,5 @@
 - name: Enable file type snippets on local storage (for config files)
-  hosts: pve_nodes
+  hosts: pve
   gather_facts: true
   tasks:
     - name: Get list of storage types on local
