@@ -1,5 +1,1 @@
-api_token:
-  name: pulumi
-  userid: root@pam
-  bws_project_id: 4654d130-7f68-40d5-a1b3-b25600f62ccd
-  bws_token_name_prefix: PROXMOX_API_TOKEN
+../../../common/group_vars/pve/api.yaml
