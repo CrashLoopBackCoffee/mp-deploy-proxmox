@@ -18,7 +18,7 @@ scrape_configs:
       module: [default]
 
 remote_write:
-  - url: "{{ prometheus_remote.push_url }}"
+  - url: "{{ prometheus.remote.push_url }}"
     basic_auth:
-      username: "{{ prometheus_remote.username }}"
-      password: "{{ prometheus_remote.password }}"
+      username: "{{ prometheus.remote.username }}"
+      password: "{{ prometheus.remote.password }}"

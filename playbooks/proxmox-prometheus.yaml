@@ -47,11 +47,6 @@
         src: prometheus-ct.yml.j2
         dest: "{{ prometheus_yml_tmp }}"
         mode: '0600'
-      vars:
-        prometheus_remote:
-          push_url: "{{ lookup('ansible.builtin.env', 'PROMETHEUS_REMOTE_PUSH_URL') }}"
-          username: "{{ lookup('ansible.builtin.env', 'PROMETHEUS_REMOTE_USERNAME') }}"
-          password: "{{ lookup('ansible.builtin.env', 'PROMETHEUS_REMOTE_PASSWORD') }}"
       notify: Reconfigure Prometheus in container
 
     - name: Query user accounts
