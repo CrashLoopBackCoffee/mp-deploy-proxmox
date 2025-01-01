@@ -1,18 +1,15 @@
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[project]
+name = "deploy-proxmox"
+version = "0.1.0"
+description = "Deployment of a Proxmox cluster with Ansible."
+requires-python = ">=3.12"
+dependencies = ["ansible>=11.1.0"]
 
-[tool.poetry]
-package-mode = false
+[dependency-groups]
+dev = ["ansible-lint>=24.12.2", "pyright>=1.1.391", "ruff>=0.8.4"]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-ansible = "^11.1.0"
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.1.8"
-pyright = "^1.1.368"
-ansible-lint = { version = "^24.12.2", markers = "platform_system != 'Windows'" }
+[tool.uv]
+environments = ["platform_system != 'Windows'"]
 
 [tool.ruff]
 line-length = 100
