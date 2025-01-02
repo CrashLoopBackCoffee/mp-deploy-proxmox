@@ -21,4 +21,4 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Run Ansible Lint
-        run: uv run ansible-lint
+        run: uv run ansible-lint inventory playbooks roles
