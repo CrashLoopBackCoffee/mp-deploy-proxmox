@@ -1,5 +1,5 @@
 - name: Ensure post-install routines are active
-  hosts: pve
+  hosts: pbs,pve
   gather_facts: false
   tasks:
     - name: Check for no-nag file
@@ -13,6 +13,7 @@
         success_msg: Proxmox post-install is active.
         fail_msg:
           Follow the instructions on
-          https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install to install
+          https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install or
+          https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pbs-install to install
           post-installation utilities, including the no-nag automation. Unfortunately, this cannot
           be run unattended. See https://github.com/tteck/Proxmox/discussions/1659 for details.
