@@ -89,6 +89,7 @@
               --data={{ acme_data_file }}
           changed_when: true
 
+      always:
         - name: Delete plugin config data file
           ansible.builtin.file:
             dest: "{{ acme_data_file }}"
