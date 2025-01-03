@@ -54,5 +54,5 @@
             --cron
             --home /root/.acme.sh
             --renew-hook "{{ reloadcmd }}"
-        minute: 17
-        hour: 4
+        minute: "{{ 60 | random(seed=inventory_hostname) }}"
+        hour: "{{ 24 | random(seed=inventory_hostname) }}"
