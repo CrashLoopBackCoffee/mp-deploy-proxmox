@@ -20,17 +20,17 @@ jobs:
       - name: Install the project
         run: uv sync --all-extras --dev
 
-      - name: Retrieve secrets
-        uses: bitwarden/sm-action@v1
-        with:
-          # cloud_region: eu
-          # cloud_region not yet effective, see https://github.com/bitwarden/sm-action/issues/100,
-          # so specify service URLs explicitly:
-          identity_url: https://identity.bitwarden.eu
-          api_url: https://api.bitwarden.eu
-          access_token: ${{ secrets.BWS_ACCESS_TOKEN }}
-          secrets: |
-            fb6e1071-bf0e-4131-be5d-b256010a2831 > PROXMOX_ANSIBLE_VAULT_PASSWORD
+      # - name: Retrieve secrets
+      #   uses: bitwarden/sm-action@v1
+      #   with:
+      #     # cloud_region: eu
+      #     # cloud_region not yet effective, see https://github.com/bitwarden/sm-action/issues/100,
+      #     # so specify service URLs explicitly:
+      #     identity_url: https://identity.bitwarden.eu
+      #     api_url: https://api.bitwarden.eu
+      #     access_token: ${{ secrets.BWS_ACCESS_TOKEN }}
+      #     secrets: |
+      #       fb6e1071-bf0e-4131-be5d-b256010a2831 > PROXMOX_ANSIBLE_VAULT_PASSWORD
 
       - name: Run Ansible Lint
         run: uv run ansible-lint inventory playbooks roles
