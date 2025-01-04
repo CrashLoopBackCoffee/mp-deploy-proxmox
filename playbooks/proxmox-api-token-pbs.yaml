@@ -1,0 +1,37 @@
+- name: Create API token for Proxmox Backup Server
+  hosts: pbs
+  gather_facts: true
+  tasks:
+    - name: Query existing tokens
+      ansible.builtin.command:
+        proxmox-backup-manager user list-tokens {{ api_token.userid }} --output-format=json
+      register: query_tokens_result
+      changed_when: false
+      check_mode: false
+
+    - name: Create API token {{ api_token.name }}
+      ansible.builtin.command:
+        proxmox-backup-manager user generate-token {{ api_token.userid }} {{ api_token.name }}
+          --comment "Configuration by IaC."
+      when:
+        query_tokens_result.stdout
+          | from_json
+          | selectattr('token-name', 'equalto', api_token.name)
+          | list | length == 0
+      register: create_token_result
+      changed_when: true
+      notify: Export API token
+
+  handlers:
+    - name: Export API token to BWS
+      ansible.builtin.command:
+        bws secret create
+          {{ api_token.bws_token_name_prefix }}_{{ ansible_hostname | upper | replace('-', '_') }}
+          {{ api_token_object.value }}
+          {{ api_token.bws_project_id }}
+      vars:
+        api_token_object:
+          "{{ create_token_result.stdout['Result: ' | length :] | from_json }}"
+      delegate_to: localhost
+      changed_when: true
+      listen: Export API token
