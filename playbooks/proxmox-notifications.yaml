@@ -1,5 +1,5 @@
 - name: Set up notification mails
-  hosts: pve
+  hosts: pbs,pve
   gather_facts: false
   tasks:
     - name: Configure notification definitions
@@ -7,11 +7,11 @@
         name: pve_template
       vars:
         pve_template_src: templates/notifications.cfg.j2
-        pve_template_dest: /etc/pve/notifications.cfg
+        pve_template_dest: "{{ notifications_cfg }}"
 
     - name: Configure notification credentials
       ansible.builtin.include_role:
         name: pve_template
       vars:
         pve_template_src: templates/notifications-priv.cfg.j2
-        pve_template_dest: /etc/pve/priv/notifications.cfg
+        pve_template_dest: "{{ notifications_priv_cfg }}"
