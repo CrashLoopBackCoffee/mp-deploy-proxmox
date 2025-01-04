@@ -1,0 +1,7 @@
+- name: Install Prometheus node-exporter
+  hosts: pbs,pve
+  gather_facts: true
+  tasks:
+    - name: Install and configure node-exporter
+      ansible.builtin.import_role:
+        name: prometheus.prometheus.node_exporter
