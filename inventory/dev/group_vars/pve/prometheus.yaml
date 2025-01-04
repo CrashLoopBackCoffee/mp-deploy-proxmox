@@ -2,9 +2,7 @@ prometheus:
   labels:
     environment: dev
   pve_exporter:
-    password_file: /root/pve-exporter-pw
     username: pve-exporter
-    # cannot use var from above due to circular dependency in lookup:
     password:
       "{{ lookup('password', '.credentials/{{ inventory_hostname }}/pve-exporter
       chars=ascii_letters,digits,hexdigits length=32') }}"
