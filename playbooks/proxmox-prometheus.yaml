@@ -8,6 +8,8 @@
     pve_exporter_yml: /etc/prometheus/pve-exporter.yml
     pve_exporter_venv: /opt/prometheus-pve-exporter
 
+  # TODO Split config of prometheus and pve-exporter: Prometheus will be installed on a single PVE
+  # only, while pve-exporter is running on all PVE nodes.
   tasks:
     - name: Query LXC containers
       ansible.builtin.command:
