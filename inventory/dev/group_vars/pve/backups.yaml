@@ -4,8 +4,4 @@ backups:
     schedule: '3:00'
     compress: zstd
     storage: local
-    vmid: 17,18
-  - name: local-backup-2
-    schedule: '3:00'
-    storage: local
-    vmid: 17,18
+    vmid: 100
