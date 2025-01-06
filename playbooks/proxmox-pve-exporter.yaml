@@ -5,6 +5,8 @@
   vars:
     pve_exporter_yml: /etc/prometheus/pve-exporter.yml
     pve_exporter_venv: /opt/prometheus-pve-exporter
+    # renovate: datasource=github-releases packageName=prometheus-pve/prometheus-pve-exporter versioning=semver
+    pve_exporter_version: 3.4.7
 
   tasks:
     - name: Query user accounts
@@ -39,8 +41,9 @@
 
     - name: Install pve-exporter in {{ pve_exporter_venv }}
       ansible.builtin.pip:
-        name: prometheus-pve-exporter
+        name: prometheus-pve-exporter=={{ pve_exporter_version }}
         virtualenv: "{{ pve_exporter_venv }}"
+      notify: Start pve-exporter service
 
     - name: Ensure pve-exporter config dir
       ansible.builtin.file:
