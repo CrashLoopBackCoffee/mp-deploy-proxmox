@@ -1,4 +1,5 @@
 prometheus:
+  node: pve-01.mpagel.de
   labels:
     environment: prod
   pve_exporter:

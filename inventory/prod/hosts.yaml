@@ -5,8 +5,3 @@ pbs:
 pve:
   hosts:
     pve-01.mpagel.de: ~
-
-# the one host where the prometheus container is running:
-pve_prometheus_host:
-  hosts:
-    pve-01.mpagel.de: ~
