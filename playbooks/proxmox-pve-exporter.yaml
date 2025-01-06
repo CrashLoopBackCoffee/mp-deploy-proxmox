@@ -1,5 +1,5 @@
 - name: Export PVE metrics to Prometheus
-  hosts: pve_prometheus_host
+  hosts: pve
   gather_facts: true
 
   vars:

@@ -7,6 +7,10 @@
     prometheus_yml_tmp: /root/prometheus.yml
 
   tasks:
+    - name: Exit playbook if this is not the node hosting Prometheus
+      ansible.builtin.meta: end_play
+      when: inventory_hostname != prometheus.node
+
     - name: Query LXC containers
       ansible.builtin.command:
         pvesh get /nodes/{{ ansible_hostname }}/lxc --output-format=json
