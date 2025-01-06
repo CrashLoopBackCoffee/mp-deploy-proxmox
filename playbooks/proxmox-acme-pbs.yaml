@@ -17,7 +17,9 @@
     - name: Install acme.sh
       ansible.builtin.shell:
         cmd:
-          set -o pipefail && wget -O - https://get.acme.sh | sh -s email={{ acme.account.contact }}
+          set -o pipefail &&
+          wget -O - https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh |
+            sh -s -- --install-online --no-cron -m {{ acme.account.contact }}
         executable: /bin/bash
       changed_when: true
       when: not acme_sh_stat_result.stat.exists
@@ -34,7 +36,6 @@
             --key-file {{ key }}
             --fullchain-file {{ pem }}
             --reloadcmd "{{ reloadcmd }}"
-            --no-cron
       environment:
         CF_Account_ID:
           "{{ acme.plugin.data | selectattr('key', 'equalto', 'CF_Account_ID') | map(attribute='value') | first }}"
