@@ -4,7 +4,7 @@ vzdump: {{ backup.name }}
 {% if 'compress' in backup %}
         compress {{ backup.compress }}
 {% endif %}
-        enabled 1
+        enabled {{ backup.enabled | default(1) }}
         fleecing 0
         mode snapshot
         notes-template {{ "{{guestname}}" }}
