@@ -1,5 +1,0 @@
-api_token:
-  name: pulumi
-  userid: root@pam
-  bws_project_id: 2811ce4d-da08-4937-88dd-b25800f4afe2
-  bws_token_name_prefix: PROXMOX_API_TOKEN

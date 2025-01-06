@@ -1,0 +1,5 @@
+api_tokens:
+  - name: pulumi
+    userid: root@pam
+  - name: pve-dev-backup
+    userid: pve-dev@pbs
