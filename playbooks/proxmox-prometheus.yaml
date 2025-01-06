@@ -1,5 +1,5 @@
 - name: Configure Prometheus metrics scraping
-  hosts: pve
+  hosts: pve_prometheus_host
   gather_facts: true
 
   vars:
