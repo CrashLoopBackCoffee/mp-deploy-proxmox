@@ -22,7 +22,7 @@
     - name: Export API token to BWS
       ansible.builtin.command:
         bws secret create
-          {{ bws.output.token_name_prefix }}__{{ inventory_hostname_short | upper | replace('-', '_') }}__{{ api_token.name | upper | replace('-', '_') }}
+          {{ bws.output.token_name_prefix }}__{{ inventory_hostname_short_caps }}__{{ api_token.name | upper | replace('-', '_') }}
           {{ api_token_object.value }} {{ bws.output.project_id }}
       vars:
         api_token_object: '{{ create_token_result.stdout | from_json }}'
