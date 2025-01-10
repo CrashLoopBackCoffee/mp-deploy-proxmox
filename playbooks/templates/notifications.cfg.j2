@@ -4,7 +4,7 @@ sendmail: mail-to-root
         mailto-user root@pam
 
 smtp: {{ smtp_account.name }}
-        comment Send mails to {{ smtp_account.user }}.
+        comment Send mails to root from {{ smtp_account.user }}.
         from-address {{ smtp_account.from }}
         mailto-user root@pam
         mode tls
@@ -18,7 +18,7 @@ matcher: default-matcher
         target {{ smtp_account.name }}
 
 matcher: Errors
-        comment Send errors and warnings to {{ smtp_account.user }}.
+        comment Send errors and warnings to {{ smtp_account.name }}.
         match-severity error,unknown,warning
         mode all
         target {{ smtp_account.name }}
