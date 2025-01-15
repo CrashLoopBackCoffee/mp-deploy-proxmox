@@ -3,5 +3,4 @@ host_backup:
   namespace: "{{ inventory_hostname_short }}"
   password: "{{ lookup('env', 'PBS_PASSWORD_' ~ inventory_hostname_short_caps, default=Undefined) }}"
   archives:
-    - "pve-root.img:/dev/pve/root"
-    - "etc-pve.pxar:/etc/pve"
+    - "pbs-root.img:/dev/pbs/root"
